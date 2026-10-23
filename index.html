@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FH Helsinki Merch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: black hero with shirts fanned over giant type, red ticker, white lineup of flippable cut-outs, black live standings. Single committed B&W look. */
+:root {
+  --black: #000000;
+  --white: #FFFFFF;
+  --paper: #F0EFE6;
+  --red: #D82E11;
+  --dim-on-black: rgba(255, 255, 255, .6);
+  --dim-on-paper: rgba(0, 0, 0, .58);
+  --rule-on-black: rgba(255, 255, 255, .16);
+  --rule-on-paper: rgba(0, 0, 0, .14);
+  --claim: "Outfit", system-ui, sans-serif;
+  --sys: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+body { background: var(--black); color: var(--white); font-family: var(--sys); font-size: 16px; line-height: 1.45; overflow-x: hidden; }
+.wrap { max-width: 1280px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.label { font-weight: 500; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+/* header */
+header .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 24px; position: relative; z-index: 3; }
+.logo { display: block; width: 200px; max-width: 48vw; height: auto; }
+header .meta { display: flex; gap: 28px; color: var(--dim-on-black); }
+
+/* hero */
+.hero { position: relative; overflow: hidden; }
+.hero .wrap { position: relative; padding-block: 8px 64px; min-height: clamp(520px, 74vw, 820px); }
+.giant { margin: 0; font-weight: 700; text-transform: uppercase; letter-spacing: -.04em; line-height: .8; font-size: clamp(76px, 19vw, 270px); position: relative; z-index: 1; user-select: none; }
+.giant .dash { color: var(--red); }
+.giant .ghost { display: block; color: transparent; -webkit-text-stroke: 1.5px rgba(255, 255, 255, .55); }
+.fan { position: absolute; z-index: 2; right: max(0px, 2vw); top: clamp(40px, 8vw, 110px); width: min(62vw, 760px); aspect-ratio: 1.25; pointer-events: none; }
+.fan img { position: absolute; width: 62%; height: auto; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .65)); transition: transform .6s cubic-bezier(.2, .8, .2, 1); will-change: transform; }
+.fan .f1 { left: 0; top: 18%; transform: translate(calc(var(--px, 0) * -14px), calc(var(--py, 0) * -10px)) rotate(-9deg); }
+.fan .f3 { right: 0; top: 14%; transform: translate(calc(var(--px, 0) * 14px), calc(var(--py, 0) * -8px)) rotate(8deg); }
+.fan .f2 { left: 19%; top: 0; width: 66%; z-index: 2; transform: translate(calc(var(--px, 0) * 24px), calc(var(--py, 0) * 16px)) rotate(-1deg); }
+.hero-copy { position: absolute; z-index: 3; left: max(16px, env(safe-area-inset-left, 0px)); bottom: 56px; display: grid; gap: 18px; max-width: 420px; }
+.hero-copy p { margin: 0; font-size: clamp(18px, 2vw, 22px); }
+.hero-copy .facts { display: flex; gap: 26px; color: var(--dim-on-black); }
+.hero-copy .facts b { display: block; color: var(--white); font-weight: 600; font-size: 22px; letter-spacing: -.01em; }
+.cta { justify-self: start; display: inline-flex; gap: 12px; align-items: center; background: var(--white); color: var(--black); text-decoration: none; padding: 12px 18px; font-weight: 600; font-size: 15px; }
+.cta:hover { background: var(--red); color: var(--white); }
+
+/* ticker */
+.ticker { background: var(--red); color: var(--white); overflow: hidden; border-block: 1px solid var(--black); }
+.ticker .track { display: flex; width: max-content; animation: roll 38s linear infinite; padding-block: 12px; }
+.ticker span { font-weight: 700; text-transform: uppercase; letter-spacing: .02em; font-size: 22px; padding-right: 36px; white-space: nowrap; }
+.ticker span { display: inline-flex; align-items: center; }
+.ticker span::after { content: ""; width: 20px; height: 20px; margin-left: 36px; background: url("logos/FH-logo-imagemark_1c-filled-inverted.png") center / contain no-repeat; }
+@keyframes roll { to { transform: translateX(-50%); } }
+
+/* lineup */
+.lineup { background: var(--paper); color: var(--black); }
+.lineup .wrap { padding-block: 64px 88px; }
+.lineup-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; border-bottom: 1px solid var(--rule-on-paper); padding-bottom: 18px; margin-bottom: 40px; }
+.lineup-head .mark { width: 44px; height: 44px; display: block; margin-bottom: 18px; }
+.lineup-head h2 { margin: 0; font-size: clamp(36px, 6vw, 72px); line-height: .9; letter-spacing: -.03em; text-transform: uppercase; font-weight: 700; }
+.lineup-head p { margin: 0; max-width: 40ch; color: var(--dim-on-paper); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 56px 28px; }
+
+.card { position: relative; display: flex; flex-direction: column; min-width: 0; }
+.stage { position: relative; aspect-ratio: 1 / .9; max-width: 100%; perspective: 1400px; cursor: zoom-in; background: none; border: 0; padding: 0; display: block; width: 100%; }
+.num { position: absolute; left: -4px; top: -18px; z-index: 0; font-weight: 700; font-size: clamp(110px, 12vw, 170px); line-height: .8; letter-spacing: -.05em; color: transparent; -webkit-text-stroke: 1.5px rgba(0, 0, 0, .28); pointer-events: none; }
+.tilt { position: absolute; inset: 6% 0 0; transform: rotateX(calc(var(--ry, 0) * -6deg)) rotateY(calc(var(--rx, 0) * 8deg)); transition: transform .25s ease-out; transform-style: preserve-3d; }
+.flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.3, .7, .2, 1); }
+.card.back-up .flip { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.face.rear { transform: rotateY(180deg); }
+.face img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 22px 26px rgba(0, 0, 0, .22)); }
+.stamp { position: absolute; right: 2%; top: 4%; z-index: 4; background: var(--red); color: var(--white); padding: 6px 10px; transform: rotate(6deg) scale(0); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); pointer-events: none; }
+.card.lead .stamp { transform: rotate(6deg) scale(1); }
+
+.row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; }
+.sides { display: inline-flex; border: 1px solid var(--black); }
+.sides button { background: none; border: 0; padding: 6px 10px; cursor: pointer; }
+.sides button[aria-pressed="true"] { background: var(--black); color: var(--paper); }
+.card h3 { margin: 14px 0 4px; font-size: 24px; font-weight: 700; letter-spacing: -.02em; text-transform: uppercase; line-height: 1; }
+.card p { margin: 0; color: var(--dim-on-paper); font-size: 14px; max-width: 44ch; }
+.vote { display: inline-flex; align-items: center; gap: 10px; padding: 10px 12px 10px 14px; border: 1.5px solid var(--black); background: var(--paper); color: var(--black); cursor: pointer; font-weight: 600; font-size: 14px; white-space: nowrap; transition: background .15s, color .15s, transform .15s; }
+.vote .cnt { font-family: var(--mono); border-left: 1px solid currentColor; padding-left: 10px; min-width: 2ch; text-align: right; font-weight: 500; }
+.vote:hover { background: var(--black); color: var(--paper); }
+.vote[aria-pressed="true"] { background: var(--red); border-color: var(--red); color: var(--white); }
+.vote.pop { transform: scale(1.06); }
+.vote:disabled { cursor: not-allowed; opacity: .45; }
+
+/* standings */
+.standings .wrap { padding-block: 72px 80px; display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr); gap: 40px; }
+.standings h2 { margin: 0 0 14px; font-size: clamp(36px, 5vw, 60px); line-height: .9; letter-spacing: -.03em; text-transform: uppercase; font-weight: 700; }
+.standings .status { color: var(--dim-on-black); margin: 0; max-width: 34ch; }
+.standings .voters { margin-top: 28px; }
+.standings .voters b { display: block; font-size: 64px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.ranks { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.ranks li { display: grid; grid-template-columns: 34px 64px minmax(0, 1fr) 44px; gap: 14px; align-items: center; padding-block: 8px; border-bottom: 1px solid var(--rule-on-black); }
+.ranks .pos { color: var(--dim-on-black); }
+.ranks img { width: 64px; height: 48px; object-fit: contain; }
+.ranks .nm { font-weight: 600; text-transform: uppercase; font-size: 14px; letter-spacing: .01em; }
+.ranks .bar { height: 6px; background: rgba(255, 255, 255, .1); margin-top: 7px; }
+.ranks .bar i { display: block; height: 100%; width: 0; background: var(--white); transition: width .5s cubic-bezier(.2, .8, .2, 1); }
+.ranks li.top .bar i { background: var(--red); }
+.ranks li.top .nm { color: var(--red); }
+.ranks .c { text-align: right; font-size: 18px; }
+
+footer { border-top: 1px solid var(--rule-on-black); }
+footer .wrap { padding-block: 28px 44px; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+footer .flogo { width: 150px; height: auto; display: block; }
+footer .claim { font-family: var(--claim); font-weight: 500; font-size: clamp(18px, 2.4vw, 26px); }
+footer .label { color: var(--dim-on-black); }
+
+/* detail view */
+.detail { position: fixed; inset: 0; z-index: 30; background: rgba(0, 0, 0, .94); display: grid; grid-template-rows: auto minmax(0, 1fr) auto; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); gap: 12px; }
+.detail .top { display: flex; justify-content: space-between; align-items: center; }
+.detail .top h3 { margin: 0; font-size: 22px; text-transform: uppercase; letter-spacing: -.01em; }
+.detail .close { background: none; border: 1px solid var(--white); padding: 8px 14px; cursor: pointer; }
+.detail .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; min-height: 0; }
+.detail figure { margin: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 8px; min-height: 0; background: #111; padding: 12px; }
+.detail figure img { width: 100%; height: 100%; object-fit: contain; min-height: 0; }
+.detail figcaption { color: var(--dim-on-black); }
+
+@media (max-width: 860px) {
+  .hero .wrap { min-height: 0; padding-bottom: 32px; }
+  .fan { position: relative; right: auto; top: auto; width: 100%; margin-top: -8vw; }
+  .hero-copy { position: relative; left: auto; bottom: auto; margin-top: 8px; }
+  .standings .wrap { grid-template-columns: minmax(0, 1fr); }
+  header .meta span + span { display: none; }
+  .detail .pair { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+<meta name="description" content="Founders House Helsinki Drop 01. Nine shirts. Vote for the ones you'd wear and we print the winners.">
+<meta property="og:title" content="FH—HEL Drop 01 · Founders House Helsinki">
+<meta property="og:description" content="Nine shirts. Vote for the ones you'd wear and we print the winners.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="logos/FH-logo-imagemark_1c-filled-inverted.png">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <img class="logo" src="logos/FH-logo-composite-horizontal_4c-inverted.png" alt="Founders House" width="1607" height="367">
+    <div class="meta label"><span>Helsinki</span><span>Merch · Drop 01</span></div>
+  </div>
+</header>
+
+<section class="hero" id="hero">
+  <div class="wrap">
+    <h1 class="giant" aria-label="FH—HEL Drop 01">FH<span class="dash">—</span>HEL<span class="ghost">DROP01</span></h1>
+    <div class="fan" aria-hidden="true">
+      <img class="f1" src="tees/s9-front.png" alt="">
+      <img class="f3" src="tees/s5-back.png" alt="">
+      <img class="f2" src="tees/s1-back.png" alt="">
+    </div>
+    <div class="hero-copy">
+      <div class="facts label">
+        <div><b>9</b>designs</div>
+        <div><b>1</b>vote per shirt</div>
+        <div><b class="mono" id="voters-hero">0</b>voters so far</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <span>Drop 01</span><span>Helsinki</span><span>Vote what gets printed</span><span>Nine designs</span><span>Founders House</span><span>Drop 01</span><span>Helsinki</span><span>Vote what gets printed</span><span>Nine designs</span><span>Founders House</span>
+  </div>
+</div>
+
+<section class="lineup" id="lineup" aria-labelledby="lineup-h">
+  <div class="wrap">
+    <div class="lineup-head">
+      <div><img class="mark" src="logos/FH-logo-imagemark_1c-filled-standard.png" alt="" width="367" height="366"><h2 id="lineup-h">The lineup</h2></div>
+      <p>Hover or tap Front/Back to turn a shirt around. Click a shirt to see both sides big. Vote for every one you'd actually wear.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="standings" aria-labelledby="standings-h">
+  <div class="wrap">
+    <div>
+      <h2 id="standings-h">Live standings</h2>
+      <p class="status" id="status">Loading the votes…</p>
+      <div class="voters label"><b class="mono" id="voters">0</b>people have voted</div>
+    </div>
+    <ol class="ranks" id="ranks"></ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <img class="flogo" src="logos/FH-logo-composite-main_1c-filled-inverted.png" alt="Founders House" width="917" height="366">
+    <span class="claim">Where talent concentrates, potential multiplies.</span>
+    <span class="label">Founders House Helsinki · Voting closes when the print order goes in</span>
+  </div>
+</footer>
+
+<script>
+const SHIRTS = [
+  { id: "reactor", n: 1, name: "The Reactor", hero: "back", note: "Helmet portrait carrying the red symbol card. Small wordmark on the chest." },
+  { id: "reactor-mono", n: 2, name: "Reactor, Mono", hero: "back", note: "Same portrait with the symbol in greyscale. The quieter take." },
+  { id: "go-found", n: 3, name: "Go Found Yourself", hero: "back", note: "Handwritten note tucked into the helmet. Wordmark front, message back." },
+  { id: "fh-hel", n: 4, name: "FH—HEL", hero: "back", note: "An old Mercedes tagged FH—HEL, printed as a halftone photo." },
+  { id: "branded", n: 5, name: "Branded", hero: "back", note: "White horse with the line symbol on its flank. Helsinki wordmark front." },
+  { id: "tower", n: 6, name: "Signal Tower", hero: "front", note: "Black-metal wordmark dripping onto a cell tower. Clean wordmark on the back." },
+  { id: "block", n: 7, name: "Halftone Block", hero: "front", note: "Black-metal wordmark over a pixelated building. Clean wordmark on the back." },
+  { id: "choose", n: 8, name: "Choose Founding", hero: "back", note: "A founder's monologue set across the back. Strong language." },
+  { id: "skull", n: 9, name: "Metal Skull", hero: "front", note: "Black-metal wordmark over a halftone skull. Clean wordmark on the back." },
+];
+const src = (s, side) => `tees/s${s.n}-${side}.png`;
+const pad = (n) => String(n).padStart(2, "0");
+const $ = (id) => document.getElementById(id);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canHover = matchMedia("(hover: hover)").matches;
+
+const state = { counts: {}, voters: 0, mine: {}, uid: null, canVote: false };
+
+function buildGrid() {
+  SHIRTS.forEach((s) => {
+    const other = s.hero === "back" ? "front" : "back";
+    const card = document.createElement("article");
+    card.className = "card" + (s.hero === "back" ? " back-up" : "");
+    card.dataset.id = s.id;
+    card.innerHTML = `
+      <span class="num" aria-hidden="true">${pad(s.n)}</span>
+      <button class="stage" type="button" aria-label="See ${s.name} front and back">
+        <span class="stamp label">Leading</span>
+        <span class="tilt"><span class="flip">
+          <span class="face"><img src="${src(s, "front")}" alt="${s.name}, front" loading="lazy"></span>
+          <span class="face rear"><img src="${src(s, "back")}" alt="${s.name}, back" loading="lazy"></span>
+        </span></span>
+      </button>
+      <h3></h3>
+      <p></p>
+      <div class="row">
+        <span class="sides label" role="group" aria-label="Show side">
+          <button type="button" data-side="front">Front</button><button type="button" data-side="back">Back</button>
+        </span>
+        <button class="vote" type="button" id="vote-${s.id}" aria-pressed="false" disabled><span class="lbl">I'd wear this</span><span class="cnt">0</span></button>
+      </div>`;
+    card.querySelector("h3").textContent = s.name;
+    card.querySelector("p").textContent = s.note;
+
+    let pinned = s.hero;
+    const show = (side) => card.classList.toggle("back-up", side === "back");
+    const syncSides = () => card.querySelectorAll(".sides button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.side === pinned)));
+    card.querySelectorAll(".sides button").forEach((b) => b.addEventListener("click", () => { pinned = b.dataset.side; show(pinned); syncSides(); }));
+    syncSides();
+
+    const stage = card.querySelector(".stage");
+    stage.addEventListener("click", () => openDetail(s));
+    if (canHover) {
+      stage.addEventListener("mouseenter", () => show(pinned === "back" ? "front" : "back"));
+      stage.addEventListener("mouseleave", () => { show(pinned); stage.style.setProperty("--rx", 0); stage.style.setProperty("--ry", 0); });
+      if (!reduce) stage.addEventListener("pointermove", (e) => {
+        const r = stage.getBoundingClientRect();
+        stage.style.setProperty("--rx", ((e.clientX - r.left) / r.width - .5).toFixed(3));
+        stage.style.setProperty("--ry", ((e.clientY - r.top) / r.height - .5).toFixed(3));
+      });
+    }
+    card.querySelector(".vote").addEventListener("click", () => toggle(s.id));
+    $("grid").appendChild(card);
+  });
+}
+
+function render() {
+  const max = Math.max(1, ...SHIRTS.map((s) => state.counts[s.id] || 0));
+  const ranked = SHIRTS.map((s) => ({ ...s, c: state.counts[s.id] || 0 })).sort((a, b) => b.c - a.c || a.n - b.n);
+  const leader = ranked[0].c > 0 ? ranked[0].id : null;
+
+  const list = $("ranks");
+  list.textContent = "";
+  ranked.forEach((s, i) => {
+    const li = document.createElement("li");
+    if (s.id === leader) li.className = "top";
+    li.innerHTML = `<span class="pos mono">${pad(i + 1)}</span><img src="${src(s, s.hero)}" alt=""><span><span class="nm"></span><span class="bar"><i style="width:${Math.round((s.c / max) * 100)}%"></i></span></span><span class="c mono">${s.c}</span>`;
+    li.querySelector(".nm").textContent = s.name;
+    list.appendChild(li);
+  });
+
+  SHIRTS.forEach((s) => {
+    const btn = $("vote-" + s.id);
+    const on = !!state.mine[s.id];
+    btn.setAttribute("aria-pressed", String(on));
+    btn.querySelector(".lbl").textContent = on ? "Voted" : "I'd wear this";
+    btn.querySelector(".cnt").textContent = state.counts[s.id] || 0;
+    btn.disabled = !state.canVote;
+    btn.closest(".card").classList.toggle("lead", s.id === leader);
+  });
+  $("voters").textContent = state.voters;
+  $("voters-hero").textContent = state.voters;
+}
+
+const setStatus = (t) => { $("status").textContent = t; };
+
+const VOTER_KEY = "fh-hel-drop01-voter";
+function voterId() {
+  let id = null;
+  try { id = localStorage.getItem(VOTER_KEY); } catch (e) {}
+  if (!id || !/^[a-f0-9-]{36}$/.test(id)) {
+    id = crypto.randomUUID();
+    try { localStorage.setItem(VOTER_KEY, id); } catch (e) {}
+  }
+  return id;
+}
+
+function apply(data) {
+  state.counts = data.counts || {};
+  state.voters = data.voters || 0;
+  state.mine = Object.fromEntries((data.mine || []).map((k) => [k, true]));
+  render();
+}
+
+let inflight = 0;
+let queue = Promise.resolve();
+function toggle(id) {
+  if (!state.canVote) return;
+  const on = !state.mine[id];
+  state.mine = { ...state.mine };
+  if (on) state.mine[id] = true; else delete state.mine[id];
+  state.counts = { ...state.counts, [id]: Math.max(0, (state.counts[id] || 0) + (on ? 1 : -1)) };
+  const btn = $("vote-" + id);
+  if (on && !reduce) { btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 160); }
+  render();
+  inflight++;
+  queue = queue.then(async () => {
+    try {
+      const r = await fetch("/api/votes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ voter: state.uid, shirt: id, on }),
+      });
+      if (!r.ok) throw new Error(String(r.status));
+      const data = await r.json();
+      if (--inflight === 0) apply(data);
+    } catch (e) {
+      inflight--;
+      setStatus("Your vote didn't save. Check your connection and try again.");
+      refresh();
+    }
+  });
+}
+
+function openDetail(s) {
+  const d = document.createElement("div");
+  d.className = "detail";
+  d.setAttribute("role", "dialog");
+  d.setAttribute("aria-modal", "true");
+  d.setAttribute("aria-label", s.name);
+  d.innerHTML = `<div class="top"><h3></h3><button class="close label" type="button">Close</button></div>
+    <div class="pair">
+      <figure><img src="${src(s, "front")}" alt="${s.name}, front"><figcaption class="label">Front</figcaption></figure>
+      <figure><img src="${src(s, "back")}" alt="${s.name}, back"><figcaption class="label">Back</figcaption></figure>
+    </div>`;
+  d.querySelector("h3").textContent = pad(s.n) + " " + s.name;
+  const close = () => { d.remove(); document.removeEventListener("keydown", onKey); };
+  const onKey = (e) => { if (e.key === "Escape") close(); };
+  d.querySelector(".close").addEventListener("click", close);
+  d.addEventListener("click", (e) => { if (e.target === d) close(); });
+  document.addEventListener("keydown", onKey);
+  document.body.appendChild(d);
+  d.querySelector(".close").focus();
+}
+
+if (!reduce) {
+  const hero = $("hero");
+  hero.addEventListener("pointermove", (e) => {
+    const r = hero.getBoundingClientRect();
+    hero.style.setProperty("--px", ((e.clientX - r.left) / r.width - .5).toFixed(3));
+    hero.style.setProperty("--py", ((e.clientY - r.top) / r.height - .5).toFixed(3));
+  });
+}
+
+async function refresh() {
+  if (inflight > 0) return;
+  try {
+    const r = await fetch("/api/votes?voter=" + encodeURIComponent(state.uid), { cache: "no-store" });
+    if (!r.ok) throw new Error(String(r.status));
+    const data = await r.json();
+    if (inflight === 0) apply(data);
+    if (!state.canVote) {
+      state.canVote = true;
+      setStatus("Vote for every shirt you'd wear. Tap again to take a vote back. Results update live.");
+      render();
+    }
+  } catch (e) {
+    setStatus("Votes can't load right now. Try again in a minute.");
+  }
+}
+
+function connect() {
+  state.uid = voterId();
+  refresh();
+  setInterval(() => { if (document.visibilityState === "visible") refresh(); }, 10000);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") refresh(); });
+}
+
+buildGrid();
+render();
+connect();
+</script>
+</body>
+</html>
