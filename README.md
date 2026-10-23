@@ -3,7 +3,7 @@
 Public voting page for the Founders House Helsinki shirts. Anyone with the link can vote, no account needed.
 
 - `index.html`: the page
-- `tees/`, `logos/`: shirt cut-outs and official FH logos
+- `tees/`, `logos/`: shirt cut-outs and official FH logos (keep files inside these folders)
 - `api/votes.js`: the vote counter (runs on Vercel)
 - `package.json`: tells Vercel to install the database client
 

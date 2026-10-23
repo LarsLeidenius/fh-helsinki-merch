@@ -11,10 +11,19 @@ import { Redis } from "@upstash/redis";
 const SHIRTS = ["reactor", "reactor-mono", "go-found", "fh-hel", "branded", "tower", "block", "choose", "skull"];
 const VOTER = /^[a-f0-9-]{36}$/;
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN,
-});
+// Vercel names the database keys differently depending on how Upstash was added
+// (UPSTASH_REDIS_REST_*, KV_REST_API_*, or either with a custom prefix), so find them by suffix.
+function findEnv(suffixes) {
+  const keys = Object.keys(process.env);
+  for (const suffix of suffixes) {
+    const key = keys.find((k) => k.endsWith(suffix) && !k.includes("READ_ONLY") && process.env[k]);
+    if (key) return process.env[key];
+  }
+  return undefined;
+}
+const url = findEnv(["UPSTASH_REDIS_REST_URL", "KV_REST_API_URL"]);
+const token = findEnv(["UPSTASH_REDIS_REST_TOKEN", "KV_REST_API_TOKEN"]);
+const redis = url && token ? new Redis({ url, token }) : null;
 
 async function snapshot(voter) {
   const p = redis.pipeline();
@@ -29,6 +38,9 @@ async function snapshot(voter) {
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
+  if (!redis) {
+    return res.status(503).json({ error: "Votes are unavailable right now", reason: "no-database" });
+  }
   try {
     if (req.method === "GET") {
       return res.status(200).json(await snapshot(String(req.query.voter || "")));
