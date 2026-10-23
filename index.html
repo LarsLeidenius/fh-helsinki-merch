@@ -70,7 +70,12 @@ header .meta { display: flex; gap: 28px; color: var(--dim-on-black); }
 .lineup-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; border-bottom: 1px solid var(--rule-on-paper); padding-bottom: 18px; margin-bottom: 40px; }
 .lineup-head .mark { width: 44px; height: 44px; display: block; margin-bottom: 18px; }
 .lineup-head h2 { margin: 0; font-size: clamp(36px, 6vw, 72px); line-height: .9; letter-spacing: -.03em; text-transform: uppercase; font-weight: 700; }
-.lineup-head p { margin: 0; max-width: 40ch; color: var(--dim-on-paper); }
+.lineup-head p { margin: 0; max-width: 46ch; color: var(--dim-on-paper); }
+.lineup-head p strong { color: var(--black); font-weight: 600; }
+.cat + .cat { margin-top: 88px; }
+.cat-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; border-bottom: 2px solid var(--black); padding-bottom: 10px; margin-bottom: 40px; }
+.cat-head h3 { margin: 0; font-size: clamp(24px, 3vw, 34px); font-weight: 700; text-transform: uppercase; letter-spacing: -.02em; }
+.cat-head .label { color: var(--red); }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 56px 28px; }
 
 .card { position: relative; display: flex; flex-direction: column; min-width: 0; }
@@ -81,7 +86,7 @@ header .meta { display: flex; gap: 28px; color: var(--dim-on-black); }
 .card.back-up .flip { transform: rotateY(180deg); }
 .face { position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .face.rear { transform: rotateY(180deg); }
-.face img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; filter: drop-shadow(0 22px 26px rgba(0, 0, 0, .22)); }
+.face img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 22px 26px rgba(0, 0, 0, .22)); }
 .stamp { position: absolute; right: 2%; top: 4%; z-index: 4; background: var(--red); color: var(--white); padding: 6px 10px; transform: rotate(6deg) scale(0); transition: transform .35s cubic-bezier(.3, 1.6, .5, 1); pointer-events: none; }
 .card.lead .stamp { transform: rotate(6deg) scale(1); }
 
@@ -104,6 +109,8 @@ header .meta { display: flex; gap: 28px; color: var(--dim-on-black); }
 .standings .status { color: var(--dim-on-black); margin: 0; max-width: 34ch; }
 .standings .voters { margin-top: 28px; }
 .standings .voters b { display: block; font-size: 64px; font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.boards { display: grid; gap: 40px; min-width: 0; }
+.board-h { margin: 0 0 8px; color: var(--dim-on-black); }
 .ranks { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
 .ranks li { display: grid; grid-template-columns: 34px 64px minmax(0, 1fr) 44px; gap: 14px; align-items: center; padding-block: 8px; border-bottom: 1px solid var(--rule-on-black); }
 .ranks .pos { color: var(--dim-on-black); }
@@ -143,9 +150,9 @@ footer .label { color: var(--dim-on-black); }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
 </style>
-<meta name="description" content="Founders House Helsinki Drop 01. Nine shirts. Vote for the ones you'd wear and we print the winners.">
+<meta name="description" content="Founders House Helsinki Drop 01. Vote for one T-shirt and one college jacket. The winners get made.">
 <meta property="og:title" content="FH HEL Drop 01 · Founders House Helsinki">
-<meta property="og:description" content="Nine shirts. Vote for the ones you'd wear and we print the winners.">
+<meta property="og:description" content="Vote for one T-shirt and one college jacket. The winners get made.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/png" href="logos/FH-logo-imagemark_1c-filled-inverted.png">
 </head>
@@ -168,8 +175,8 @@ footer .label { color: var(--dim-on-black); }
     </div>
     <div class="hero-copy">
       <div class="facts label">
-        <div><b>9</b>designs</div>
-        <div><b>1</b>vote per shirt</div>
+        <div><b>1</b>T-shirt wins</div>
+        <div><b>1</b>college jacket wins</div>
         <div><b class="mono" id="voters-hero">0</b>voters so far</div>
       </div>
     </div>
@@ -178,7 +185,7 @@ footer .label { color: var(--dim-on-black); }
 
 <div class="ticker" aria-hidden="true">
   <div class="track">
-    <span>Drop 01</span><span>Helsinki</span><span>Vote what gets printed</span><span>Nine designs</span><span>Founders House</span><span>Drop 01</span><span>Helsinki</span><span>Vote what gets printed</span><span>Nine designs</span><span>Founders House</span>
+    <span>Drop 01</span><span>Helsinki</span><span>Vote 1 T-shirt + 1 college jacket</span><span>The winners get made</span><span>Founders House</span><span>Drop 01</span><span>Helsinki</span><span>Vote 1 T-shirt + 1 college jacket</span><span>The winners get made</span><span>Founders House</span>
   </div>
 </div>
 
@@ -186,9 +193,16 @@ footer .label { color: var(--dim-on-black); }
   <div class="wrap">
     <div class="lineup-head">
       <div><img class="mark" src="logos/FH-logo-imagemark_1c-filled-standard.png" alt="" width="367" height="366"><h2 id="lineup-h">The lineup</h2></div>
-      <p>Hover or tap Front/Back to turn a shirt around. Click a shirt to see both sides big. Vote for every one you'd actually wear.</p>
+      <p><strong>The vote picks one T-shirt and one college jacket.</strong> Pick your favourite in each. Picking another one moves your vote. Hover or tap Front/Back to turn a piece around, or click it to see both sides big.</p>
     </div>
-    <div class="grid" id="grid"></div>
+    <div class="cat">
+      <div class="cat-head"><h3>T-shirts</h3><span class="label">Pick 1 of 9</span></div>
+      <div class="grid" id="grid-tee"></div>
+    </div>
+    <div class="cat">
+      <div class="cat-head"><h3>College jackets</h3><span class="label">Pick 1 of 3</span></div>
+      <div class="grid" id="grid-jacket"></div>
+    </div>
   </div>
 </section>
 
@@ -199,7 +213,10 @@ footer .label { color: var(--dim-on-black); }
       <p class="status" id="status">Loading the votes…</p>
       <div class="voters label"><b class="mono" id="voters">0</b>people have voted</div>
     </div>
-    <ol class="ranks" id="ranks"></ol>
+    <div class="boards">
+      <div><h3 class="board-h label">T-shirts</h3><ol class="ranks" id="ranks-tee"></ol></div>
+      <div><h3 class="board-h label">College jackets</h3><ol class="ranks" id="ranks-jacket"></ol></div>
+    </div>
   </div>
 </section>
 
@@ -212,18 +229,22 @@ footer .label { color: var(--dim-on-black); }
 </footer>
 
 <script>
-const SHIRTS = [
-  { id: "reactor", n: 1, name: "The Reactor", hero: "back", note: "Helmet portrait carrying the red symbol card. Small wordmark on the chest." },
-  { id: "reactor-mono", n: 2, name: "Reactor, Mono", hero: "back", note: "Same portrait with the symbol in greyscale. The quieter take." },
-  { id: "go-found", n: 3, name: "Go Found Yourself", hero: "back", note: "Handwritten note tucked into the helmet. Wordmark front, message back." },
-  { id: "fh-hel", n: 4, name: "FH-HEL", hero: "back", note: "An old Mercedes tagged FH-HEL, printed as a halftone photo." },
-  { id: "branded", n: 5, name: "Branded", hero: "back", note: "White horse with the line symbol on its flank. Helsinki wordmark front." },
-  { id: "tower", n: 6, name: "Signal Tower", hero: "front", note: "Black-metal wordmark dripping onto a cell tower. Clean wordmark on the back." },
-  { id: "block", n: 7, name: "Halftone Block", hero: "front", note: "Black-metal wordmark over a pixelated building. Clean wordmark on the back." },
-  { id: "choose", n: 8, name: "Choose Founding", hero: "back", note: "A founder's monologue set across the back. Strong language." },
-  { id: "skull", n: 9, name: "Metal Skull", hero: "front", note: "Black-metal wordmark over a halftone skull. Clean wordmark on the back." },
+const ITEMS = [
+  { id: "reactor", cat: "tee", code: "01", img: "tees/s1", name: "The Reactor", hero: "back", note: "Helmet portrait carrying the red symbol card. Small wordmark on the chest." },
+  { id: "reactor-mono", cat: "tee", code: "02", img: "tees/s2", name: "Reactor, Mono", hero: "back", note: "Same portrait with the symbol in greyscale. The quieter take." },
+  { id: "go-found", cat: "tee", code: "03", img: "tees/s3", name: "Go Found Yourself", hero: "back", note: "Handwritten note tucked into the helmet. Wordmark front, message back." },
+  { id: "fh-hel", cat: "tee", code: "04", img: "tees/s4", name: "FH-HEL", hero: "back", note: "An old Mercedes tagged FH-HEL, printed as a halftone photo." },
+  { id: "branded", cat: "tee", code: "05", img: "tees/s5", name: "Branded", hero: "back", note: "White horse with the line symbol on its flank. Helsinki wordmark front." },
+  { id: "tower", cat: "tee", code: "06", img: "tees/s6", name: "Signal Tower", hero: "front", note: "Black-metal wordmark dripping onto a cell tower. Clean wordmark on the back." },
+  { id: "block", cat: "tee", code: "07", img: "tees/s7", name: "Halftone Block", hero: "front", note: "Black-metal wordmark over a pixelated building. Clean wordmark on the back." },
+  { id: "choose", cat: "tee", code: "08", img: "tees/s8", name: "Choose Founding", hero: "back", note: "A founder's monologue set across the back. Strong language." },
+  { id: "skull", cat: "tee", code: "09", img: "tees/s9", name: "Metal Skull", hero: "front", note: "Black-metal wordmark over a halftone skull. Clean wordmark on the back." },
+  { id: "jacket-mark", cat: "jacket", code: "J1", img: "jackets/j1", name: "Chest Mark", hero: "front", note: "Zip college jacket with the line symbol on the chest. Clean back." },
+  { id: "jacket-wordmark", cat: "jacket", code: "J2", img: "jackets/j2", name: "Chest Wordmark", hero: "front", note: "Zip college jacket with the wordmark on the chest. Clean back." },
+  { id: "jacket-big-mark", cat: "jacket", code: "J3", img: "jackets/j3", name: "Big Mark", hero: "back", note: "Wordmark on the chest, an oversized line symbol across the back." },
 ];
-const src = (s, side) => `tees/s${s.n}-${side}.png`;
+const CATS = ["tee", "jacket"];
+const src = (s, side) => `${s.img}-${side}.png`;
 const pad = (n) => String(n).padStart(2, "0");
 const $ = (id) => document.getElementById(id);
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -232,13 +253,13 @@ const canHover = matchMedia("(hover: hover)").matches;
 const state = { counts: {}, voters: 0, mine: {}, uid: null, canVote: false };
 
 function buildGrid() {
-  SHIRTS.forEach((s) => {
+  ITEMS.forEach((s) => {
     const other = s.hero === "back" ? "front" : "back";
     const card = document.createElement("article");
     card.className = "card" + (s.hero === "back" ? " back-up" : "");
     card.dataset.id = s.id;
     card.innerHTML = `
-      <span class="num" aria-hidden="true">${pad(s.n)}</span>
+      <span class="num" aria-hidden="true">${s.code}</span>
       <button class="stage" type="button" aria-label="See ${s.name} front and back">
         <span class="stamp label">Leading</span>
         <span class="tilt"><span class="flip">
@@ -252,7 +273,7 @@ function buildGrid() {
         <span class="sides label" role="group" aria-label="Show side">
           <button type="button" data-side="front">Front</button><button type="button" data-side="back">Back</button>
         </span>
-        <button class="vote" type="button" id="vote-${s.id}" aria-pressed="false" disabled><span class="lbl">I'd wear this</span><span class="cnt">0</span></button>
+        <button class="vote" type="button" id="vote-${s.id}" aria-pressed="false" disabled><span class="lbl">Vote</span><span class="cnt">0</span></button>
       </div>`;
     card.querySelector("h3").textContent = s.name;
     card.querySelector("p").textContent = s.note;
@@ -275,33 +296,36 @@ function buildGrid() {
       });
     }
     card.querySelector(".vote").addEventListener("click", () => toggle(s.id));
-    $("grid").appendChild(card);
+    $("grid-" + s.cat).appendChild(card);
   });
 }
 
 function render() {
-  const max = Math.max(1, ...SHIRTS.map((s) => state.counts[s.id] || 0));
-  const ranked = SHIRTS.map((s) => ({ ...s, c: state.counts[s.id] || 0 })).sort((a, b) => b.c - a.c || a.n - b.n);
-  const leader = ranked[0].c > 0 ? ranked[0].id : null;
-
-  const list = $("ranks");
-  list.textContent = "";
-  ranked.forEach((s, i) => {
-    const li = document.createElement("li");
-    if (s.id === leader) li.className = "top";
-    li.innerHTML = `<span class="pos mono">${pad(i + 1)}</span><img src="${src(s, s.hero)}" alt=""><span><span class="nm"></span><span class="bar"><i style="width:${Math.round((s.c / max) * 100)}%"></i></span></span><span class="c mono">${s.c}</span>`;
-    li.querySelector(".nm").textContent = s.name;
-    list.appendChild(li);
+  const leaders = {};
+  CATS.forEach((cat) => {
+    const items = ITEMS.filter((s) => s.cat === cat);
+    const max = Math.max(1, ...items.map((s) => state.counts[s.id] || 0));
+    const ranked = items.map((s) => ({ ...s, c: state.counts[s.id] || 0 })).sort((a, b) => b.c - a.c || ITEMS.indexOf(a) - ITEMS.indexOf(b));
+    leaders[cat] = ranked[0].c > 0 ? ranked[0].id : null;
+    const list = $("ranks-" + cat);
+    list.textContent = "";
+    ranked.forEach((s, i) => {
+      const li = document.createElement("li");
+      if (s.id === leaders[cat]) li.className = "top";
+      li.innerHTML = `<span class="pos mono">${pad(i + 1)}</span><img src="${src(s, s.hero)}" alt=""><span><span class="nm"></span><span class="bar"><i style="width:${Math.round((s.c / max) * 100)}%"></i></span></span><span class="c mono">${s.c}</span>`;
+      li.querySelector(".nm").textContent = s.name;
+      list.appendChild(li);
+    });
   });
 
-  SHIRTS.forEach((s) => {
+  ITEMS.forEach((s) => {
     const btn = $("vote-" + s.id);
     const on = !!state.mine[s.id];
     btn.setAttribute("aria-pressed", String(on));
-    btn.querySelector(".lbl").textContent = on ? "Voted" : "I'd wear this";
+    btn.querySelector(".lbl").textContent = on ? "Your pick" : "Vote";
     btn.querySelector(".cnt").textContent = state.counts[s.id] || 0;
     btn.disabled = !state.canVote;
-    btn.closest(".card").classList.toggle("lead", s.id === leader);
+    btn.closest(".card").classList.toggle("lead", s.id === leaders[s.cat]);
   });
   $("voters").textContent = state.voters;
   $("voters-hero").textContent = state.voters;
@@ -332,9 +356,21 @@ let queue = Promise.resolve();
 function toggle(id) {
   if (!state.canVote) return;
   const on = !state.mine[id];
+  const cat = ITEMS.find((s) => s.id === id).cat;
   state.mine = { ...state.mine };
-  if (on) state.mine[id] = true; else delete state.mine[id];
-  state.counts = { ...state.counts, [id]: Math.max(0, (state.counts[id] || 0) + (on ? 1 : -1)) };
+  state.counts = { ...state.counts };
+  if (on) {
+    ITEMS.forEach((s) => {
+      if (s.cat === cat && s.id !== id && state.mine[s.id]) {
+        delete state.mine[s.id];
+        state.counts[s.id] = Math.max(0, (state.counts[s.id] || 0) - 1);
+      }
+    });
+    state.mine[id] = true;
+  } else {
+    delete state.mine[id];
+  }
+  state.counts[id] = Math.max(0, (state.counts[id] || 0) + (on ? 1 : -1));
   const btn = $("vote-" + id);
   if (on && !reduce) { btn.classList.add("pop"); setTimeout(() => btn.classList.remove("pop"), 160); }
   render();
@@ -368,7 +404,7 @@ function openDetail(s) {
       <figure><img src="${src(s, "front")}" alt="${s.name}, front"><figcaption class="label">Front</figcaption></figure>
       <figure><img src="${src(s, "back")}" alt="${s.name}, back"><figcaption class="label">Back</figcaption></figure>
     </div>`;
-  d.querySelector("h3").textContent = pad(s.n) + " " + s.name;
+  d.querySelector("h3").textContent = s.code + " " + s.name;
   const close = () => { d.remove(); document.removeEventListener("keydown", onKey); };
   const onKey = (e) => { if (e.key === "Escape") close(); };
   d.querySelector(".close").addEventListener("click", close);
@@ -396,7 +432,7 @@ async function refresh() {
     if (inflight === 0) apply(data);
     if (!state.canVote) {
       state.canVote = true;
-      setStatus("Vote for every shirt you'd wear. Tap again to take a vote back. Results update live.");
+      setStatus("Pick one T-shirt and one college jacket. Tap your pick again to take it back. Results update live.");
       render();
     }
   } catch (e) {

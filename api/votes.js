@@ -1,6 +1,7 @@
 // Vote API for the FH Helsinki merch page.
 // GET  /api/votes?voter=<id>                 -> { counts, voters, mine }
 // POST /api/votes { voter, shirt, on: bool } -> same shape, after saving the vote
+//   One pick per category: voting for an item removes the voter's other pick in the same category.
 //
 // Storage: Upstash Redis (added in Vercel under Storage / Marketplace).
 //   shirt:<id>  set of voter ids who voted for that shirt
@@ -8,7 +9,12 @@
 //   voters      set of voter ids with at least one vote
 import { Redis } from "@upstash/redis";
 
-const SHIRTS = ["reactor", "reactor-mono", "go-found", "fh-hel", "branded", "tower", "block", "choose", "skull"];
+const CATEGORY = {
+  reactor: "tee", "reactor-mono": "tee", "go-found": "tee", "fh-hel": "tee", branded: "tee",
+  tower: "tee", block: "tee", choose: "tee", skull: "tee",
+  "jacket-mark": "jacket", "jacket-wordmark": "jacket", "jacket-big-mark": "jacket",
+};
+const SHIRTS = Object.keys(CATEGORY);
 const VOTER = /^[a-f0-9-]{36}$/;
 
 // Vercel names the database keys differently depending on how Upstash was added
@@ -52,6 +58,10 @@ export default async function handler(req, res) {
       }
       const p = redis.pipeline();
       if (on) {
+        SHIRTS.filter((s) => s !== shirt && CATEGORY[s] === CATEGORY[shirt]).forEach((s) => {
+          p.srem(`shirt:${s}`, voter);
+          p.srem(`voter:${voter}`, s);
+        });
         p.sadd(`shirt:${shirt}`, voter);
         p.sadd(`voter:${voter}`, shirt);
         p.sadd("voters", voter);
